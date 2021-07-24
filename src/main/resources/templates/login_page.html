@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Login page</title>
+  <!-- css -->
+  <link th:href="@{/css/main_style.css}" type="text/css" href="../static/css/main_style.css" rel="stylesheet" />
+  <!-- js -->
+  <script type="text/javascript" src="../static/js/login_page.js" th:src="@{/js/login_page.js}"></script>
+  <script>testFunction();</script>
+
+  <div id="header" >
+    <!-- DBS image -->
+    <a th:href="@{hello}" style="position:relative;top:15px;"><img th:src="@{images/dbs_image.png}" src="../static/images/dbs_image.png" width="175" height="75"></a>
+  </div>
+  <div id="nav"></div>
+</head>
+
+<body>　
+  <style >
+    
+  </style>
+  <div id="sitebody" align="center"> 　
+    <!-- form -->
+    <div id="content">
+      <form  role="form" id="loginForm" method="post" enctype="application/x-www-form-urlencoded" th:action="@{/doLogin}">
+        <fieldset>
+          <legend>登入</legend>
+          <p align="center" valign="middle">使用者名稱：<input type="text" name="username"></input></p>
+          <p align="center" valign="middle">使用者密碼：<input type="password" name="password"></input> </p>
+          <p><a href="reset_password.html"> 忘記密碼?</a></p><input type="submit" value="登入">
+          <input type="submit" value="註冊" onclick="location.href='register.html'"> </p>
+          <p></p>
+        </fieldset>
+      </form>
+    </div> 　
+    <!-- footer image -->
+    <div id="footer"></div>
+  </div>
+  </body>
+
+</html>
