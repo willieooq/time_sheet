@@ -1,11 +1,16 @@
-package com.timesheet.member;
+package com.timesheet.pojo;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.hibernate.annotations.Proxy;
 
-@Component
-@ConfigurationProperties(prefix = "member")
-public class MemberBean {
+import javax.persistence.*;
+
+@Proxy(lazy = false)
+@Entity
+@Table(name = "memberaccount")
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id  = 0;
     //member name
     private String name = "";
@@ -41,4 +46,5 @@ public class MemberBean {
     public void setLast_login(String last_login) {
         this.last_login = last_login;
     }
+
 }
