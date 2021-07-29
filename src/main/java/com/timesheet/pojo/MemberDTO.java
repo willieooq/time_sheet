@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 
 public class MemberDTO{
-    public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Member mapRow(ResultSet rs, int rowNum) throws Exception {
         Member member = new Member();
         member.setId(rs.getInt("ID"));
         member.setName(rs.getString("NAME"));

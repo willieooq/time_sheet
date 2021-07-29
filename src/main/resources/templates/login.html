@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
 
 <head>
   <title>Login page</title>
@@ -18,18 +19,22 @@
 
 <body>　
   <style >
-    
+
   </style>
   <div id="sitebody" align="center"> 　
     <!-- form -->
     <div id="content">
-      <form  role="form" id="loginForm" method="post" th:action="@{/doLogin}">
+      <form  role="form" id="loginForm" enctype="application/x-www-form-urlencoded" method="post" th:action="@{/doLogin}">
         <fieldset>
           <legend>登入</legend>
-          <p align="center" valign="middle">使用者名稱：<input type="text" name="username"/></p>
-          <p align="center" valign="middle">使用者密碼：<input type="password" name="password"/> </p>
+          <p align="center" valign="middle">使用者名稱：<input type="text" name="username" value="" placeholder="Username"/></p>
+          <p align="center" valign="middle">使用者密碼：<input type="password" name="password" value="" placeholder="Password"/> </p>
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <p align="center" valign="middle">remember me<input type="checkbox" name="remember-me"/>
           <p><a href="reset_password.html"> 忘記密碼?</a></p><input type="submit" value="登入">
-          <input type="submit" value="註冊" onclick="location.href='register.html'"> </p>
+          <input type="submit" value="註冊" onclick="register.html"> </p>
+          <p th:if="${param.logout}" class="bg-warning">你已登出</p>
+          <p th:if="${param.error}" class="bg-danger">使用者名稱或密碼錯誤</p>
           <p></p>
         </fieldset>
       </form>
