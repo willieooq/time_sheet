@@ -11,6 +11,7 @@ public class MemberDTO{
         member.setName(rs.getString("NAME"));
         member.setPassword(rs.getString("PASSWORD"));
         member.setLast_login(rs.getString("LAST_LOGIN"));
+        member.setRole("ROLE");
         return member;
     }
 }
