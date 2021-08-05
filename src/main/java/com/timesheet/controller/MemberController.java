@@ -1,36 +1,35 @@
 package com.timesheet.controller;
 
 import com.timesheet.mapper.MemberMapper;
-import com.timesheet.mapper.MemberRepo;
+import com.timesheet.pojo.WorkTime;
 import com.timesheet.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 
-@RolesAllowed({"ADMIN","MEMBER"})
+
+//@RolesAllowed({"ADMIN","MEMBER"})
 @Controller
 public class MemberController{
-
     UserService userService;
-    private MemberMapper memberMapper;
-    private Authentication auth;
-    private MemberRepo memberRepo;
+    Authentication auth;
+    MemberMapper memberMapper;
 
     @Autowired
-    public void setMemberMapper(MemberMapper memberMapper){
+    public void setMemberMapper(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
     }
     @Autowired
-    public void setMemberRepo(MemberRepo memberRepo){
-        this.memberRepo = memberRepo;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping("/")
@@ -47,14 +46,13 @@ public class MemberController{
     }
 
     @RequestMapping("/record_working")
-    private String recordWork(RedirectAttributes redirectAttributes, Model model){
+    private String recordWork(Model model){
         auth = SecurityContextHolder.getContext().getAuthentication();
 //        if(memberMapper!=null){
 //            System.out.println("not null");
 //            memberMapper.set_login_date(auth.getName());
 //        }
 //        memberMapper.set_login_date(auth.getName());
-//        memberRepo.set_login_date(auth.getName());
         model.addAttribute("username", auth.getName())
                 .addAttribute("roles", auth.getAuthorities());
 
@@ -62,7 +60,22 @@ public class MemberController{
 //        redirectAttributes.addAttribute("param", auth.getAuthorities().toString());
         return "record_working";
     }
-
+    @RequestMapping("/record")
+    private String insert(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") String date,
+                          @RequestParam("start_time") @DateTimeFormat(pattern = "HH:mm") String start_time,
+                          @RequestParam("end_time") @DateTimeFormat(pattern = "HH:mm") String end_time,
+                          @RequestParam("platform") String platform,
+                          @RequestParam("detail") String detail,
+                          Model m) throws Exception {
+        if(memberMapper!=null)
+            System.out.println("not null member");
+        if(userService!=null) {
+            System.out.println("not null UserService");
+            userService.new_work(auth.getName(), date, start_time, end_time, platform, detail);
+        }
+        m.addAttribute("insert","success");
+        return "redirect:/record_working";
+    }
     @RequestMapping("/register")
     private String register(Model m){
         return "register";

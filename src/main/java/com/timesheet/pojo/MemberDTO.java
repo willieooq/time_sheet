@@ -1,8 +1,6 @@
 package com.timesheet.pojo;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
 
 public class MemberDTO{
     public Member mapRow(ResultSet rs, int rowNum) throws Exception {

@@ -27,7 +27,6 @@ public class Member {
     //member password
     private String password;
     //最後登陸時間
-    @CreatedDate
     private String last_login;
     //auth
     private String role;
