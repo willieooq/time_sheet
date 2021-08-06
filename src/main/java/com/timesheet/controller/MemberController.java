@@ -2,6 +2,7 @@ package com.timesheet.controller;
 
 import com.timesheet.mapper.MemberMapper;
 import com.timesheet.pojo.WorkTime;
+import com.timesheet.service.LoginService;
 import com.timesheet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +23,7 @@ public class MemberController{
     UserService userService;
     Authentication auth;
     MemberMapper memberMapper;
+    LoginService loginService;
 
     @Autowired
     public void setMemberMapper(MemberMapper memberMapper) {
@@ -30,6 +32,10 @@ public class MemberController{
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+    @Autowired
+    public void setLoginService(LoginService loginService) {
+        this.loginService = loginService;
     }
 
     @RequestMapping("/")
@@ -48,11 +54,11 @@ public class MemberController{
     @RequestMapping("/record_working")
     private String recordWork(Model model){
         auth = SecurityContextHolder.getContext().getAuthentication();
-//        if(memberMapper!=null){
-//            System.out.println("not null");
-//            memberMapper.set_login_date(auth.getName());
-//        }
-//        memberMapper.set_login_date(auth.getName());
+        if(loginService!=null){
+            System.out.println("not null login service");
+            loginService.userLoginDate(auth.getName());
+        }
+        memberMapper.set_login_date(auth.getName());
         model.addAttribute("username", auth.getName())
                 .addAttribute("roles", auth.getAuthorities());
 
