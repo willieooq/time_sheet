@@ -26,6 +26,7 @@ public class WorkTime {
     @Column(name = "USER_ID")
     private String USER_ID;
     //Date YYYY/MM/DD
+    @Column(name = "DATE")
     private Date DATE;
     //Start time hh/mm
     @Column(name = "START_TIME")
@@ -34,7 +35,9 @@ public class WorkTime {
     @Column(name = "END_TIME")
     private Time END_TIME;
     //Platform
+    @Column(name = "PLATFORM")
     private String PLATFORM;
     //Detail
+    @Column(name = "DETAIL")
     private String DETAIL;
 }
