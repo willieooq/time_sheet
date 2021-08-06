@@ -138,6 +138,8 @@ Ryan 的要求
 
 ## 進度
 前端頁:
+![](https://i.imgur.com/RMso0DD.png)
+
 org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.timesheet.mapper.WorkTimeMapper.insert
 	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:235)
 	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:53)
