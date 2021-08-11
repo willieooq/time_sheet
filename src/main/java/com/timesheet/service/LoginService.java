@@ -1,6 +1,7 @@
 package com.timesheet.service;
 
 import com.timesheet.mapper.MemberMapper;
+import com.timesheet.pojo.Member;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,7 +21,6 @@ public class LoginService implements UserDetailsService {
 
     private MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
-    private MemberDAO memberDao;
     @Autowired
     public void setMemberMapper(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
@@ -26,7 +28,7 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return memberDao.getByUsername(username)
+        return getByUsername(username)
                 .map(e -> User.withUsername(e.getName())
                         .passwordEncoder(s -> passwordEncoder.encode(e.getPassword()))
 //                        .password("{noop}" + e.getPassword())
@@ -39,6 +41,14 @@ public class LoginService implements UserDetailsService {
 //                .passwordEncoder(s -> passwordEncoder.encode(passwd))
 //                .authorities(new SimpleGrantedAuthority("admin"))
 //                .build();
+    }
+    public List<String> getAllUserNames() {
+        return memberMapper.selectAll().stream()
+                .map(Member::getName)
+                .collect(Collectors.toList());
+    }
+    public Optional<Member> getByUsername(String name) {
+        return memberMapper.findByName(name);
     }
     //使用者登入設定日期
     public void userLoginDate(String username){

@@ -1,23 +1,29 @@
 package com.timesheet.mapper;
 
 import com.timesheet.pojo.WorkTime;
+import com.timesheet.utils.MyMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @Mapper
-public interface WorkTimeMapper extends MyMapper<WorkTime>{
+public interface WorkTimeMapper{
 
     //create member data
-    @Insert("insert into worktime (USER_ID,DATE,START_TIME,END_TIME,PLATFORM,DETAIL) " +
-            "values (#{USER_ID},#{DATE},#{START_TIME},#{END_TIME},#{PLATFORM},#{DETAIL})")
+    @Insert("insert into work_time (UserId,Date,StartTime,EndTime,Platform,Detail) " +
+            "values (#{userId},#{date},#{startTime},#{endTime},#{platform},#{detail})")
     void create(WorkTime record);
     //根據實體類不為null的欄位進行查詢,條件全部使用=號and條件
     List<WorkTime> select(WorkTime record);
+    //全選
+    @Select("select * from worktime")
+    List<WorkTime> selectAll();
+    @Select("select * from worktime order by USER_ID desc")
+    List<WorkTime> listPages();
     //根據實體類不為null的欄位查詢總數,條件全部使用=號and條件
     int selectCount(WorkTime record);
     //根據主鍵進行查詢,必須保證結果唯一
@@ -44,4 +50,5 @@ public interface WorkTimeMapper extends MyMapper<WorkTime>{
     //根據主鍵進行更新
     //只會更新不是null的資料
     int updateByPrimaryKeySelective(WorkTime record);
+
 }

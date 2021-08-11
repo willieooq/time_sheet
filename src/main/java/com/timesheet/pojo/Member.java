@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 
@@ -15,20 +14,24 @@ import javax.persistence.*;
 @Builder
 @Proxy(lazy = false)
 @Entity
-@Table(name = "memberaccount")
+@Table(name = "member_account")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private int id;
     //member name
-    @Column(unique = true)
+    @Column(name = "Name",unique = true)
     private String name;
     //member password
+    @Column(name = "Password")
     private String password;
     //最後登陸時間
-    private String last_login;
+    @Column(name = "LastLogin")
+    private String lastLogin;
     //auth
+    @Column(name = "Role")
     private String role;
 
 }

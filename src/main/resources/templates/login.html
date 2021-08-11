@@ -12,7 +12,7 @@
 
   <div id="header" >
     <!-- DBS image -->
-    <a th:href="@{hello}" style="position:relative;top:15px;"><img th:src="@{images/dbs_image.png}" src="../static/images/dbs_image.png" width="175" height="75"></a>
+    <a th:href="@{record_working.html}" style="position:relative;top:15px;"><img th:src="@{images/dbs_image.png}" src="../static/images/dbs_image.png" width="175" height="75"></a>
   </div>
   <div id="nav"></div>
 </head>
@@ -31,8 +31,9 @@
           <p align="center" valign="middle">使用者密碼：<input type="password" name="password" value="" placeholder="Password"/> </p>
 <!--          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
           <p align="center" valign="middle">remember me<input type="checkbox" name="remember-me" id="remember-me"/>
-          <p><a href="reset_password.html"> 忘記密碼?</a></p><input type="submit" value="登入">
-          <input type="submit" value="註冊" onclick="register.html"> </p>
+          <p><a href="reset_password.html"> 忘記密碼?</a></p>
+          <input type="submit" value="登入">
+          <input type="button" value="註冊" th:action="@{/register}"> </p>
           <p th:if="${param.logout}" class="bg-warning">你已登出</p>
           <p th:if="${param.error}" class="bg-danger">使用者名稱或密碼錯誤</p>
           <p></p>

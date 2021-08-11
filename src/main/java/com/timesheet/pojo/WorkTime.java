@@ -1,11 +1,7 @@
 package com.timesheet.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Proxy;
-import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -17,27 +13,28 @@ import java.sql.Time;
 @Builder
 @Proxy(lazy = false)
 @Entity
-@Table(name = "worktime")
+@Table(name = "work_time")
 public class WorkTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    @Column(name = "Id")
+    private int id;
     //reference member_account username
-    @Column(name = "USER_ID")
-    private String USER_ID;
+    @Column(name = "UserId")
+    private String userId;
     //Date YYYY/MM/DD
-    @Column(name = "DATE")
-    private Date DATE;
+    @Column(name = "Date")
+    private Date date;
     //Start time hh/mm
-    @Column(name = "START_TIME")
-    private Time START_TIME;
+    @Column(name = "StartTime")
+    private Time startTime;
     //End time hh/mm
-    @Column(name = "END_TIME")
-    private Time END_TIME;
+    @Column(name = "EndTime")
+    private Time endTime;
     //Platform
-    @Column(name = "PLATFORM")
-    private String PLATFORM;
+    @Column(name = "Platform")
+    private String platform;
     //Detail
-    @Column(name = "DETAIL")
-    private String DETAIL;
+    @Column(name = "Detail")
+    private String detail;
 }

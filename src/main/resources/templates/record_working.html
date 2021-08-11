@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+
+<head>
+  <title>New Work</title>
+  <!-- css -->
+  <link th:href="@{/css/main_style.css}" type="text/css" href="../static/css/main_style.css" rel="stylesheet" />
+  <!-- js -->
+   <script>
+       function insertSuccess(){
+           alert("Success!");
+       }
+
+       const jp = JSON.parse('insert');
+       if( jp === "success"){
+           insertSuccess();
+       }else {
+           console.log(jp)
+       }
+   </script>
+    <div id="header" >
+      <!-- DBS image -->
+      <a th:href="@{hello}" style="position:relative;top:15px;"><img th:src="@{images/dbs_image.png}" src="../static/images/dbs_image.png" width="175" height="75"></a>
+  </div>
+  <div id="nav"></div>
+    <script type="text/javascript">
+      department=new Array();
+      department[0]=["請先選擇工作項目"];
+      department[1]=["T&D_Study", "T&D_Meeting", "T&D_SpecialProject"];	// T&D1
+      department[2]=["C2MA_DDOM", "C2MA_CMP"];	// C2MA
+      department[3]=["I&I_ClientConnect"];			// I&I
+      department[4]=["Other_Leave"];				// Other
+      department[5]=["FR_CountryTech_URforEFNA_FEB_Enhancement", "FR_COOT"]; //FR
+      department[6]=["DBTW_BAU", "DBTW_Training"];		//DBTW
+      department[7]=["Card+_BAU", "Card+_PL+", "Card+_PaymentControl"]; //Card+
+      department[8]=["iReward_BAU"]; 	//iReward
+      department[9]=["CFTW_TRAINING"]; 	//CFTW_TRAINING
+      department[10]=["Fulfill_cook"]; 	//Fulfill
+      function renew(index){
+        for(var i=0;i<department[index].length;i++)
+            document.myForm.detail.options[i]=new Option(department[index][i], department[index][i]);	// 設定新選項
+        document.myForm.detail.length=department[index].length;	// 刪除多餘的選項
+        }
+  </script>
+　
+</head>
+
+<body>
+  <div id="sitebody" align="center">
+  <!--form-->
+　<div id="content">
+    <input type="checkbox" name="test" id="sideMenu--active">
+    <!-- 使用 checkbox 來做開關 -->
+    <div class="sideMenu">
+        <form>
+            <input type="search" placeholder="請輸入搜尋名稱">
+            <button><i class="fas fa-search"></i></button>
+        </form>
+        <nav>
+            <a href="#"><i class="fas fa-sitemap"></i>變更個人資料</a>
+            <a href="#"><i class="fas fa-chalkboard"></i></i>登記工作時數</a>
+            <a href="#"><i class="fas fa-book-reader"></i>新增工作項目</a>
+            <a href="#"><i class="fas fa-user-graduate"></i>工作日誌</a>
+        </nav>
+        <label for="sideMenu--active">
+            <i class="fas fa-angle-right"></i>
+        </label>
+        <!-- label 寫在 nav 下方是為了比較好看到 -->
+    </div>
+   <form name="myForm"  enctype="application/x-www-form-urlencoded" method="post" th:action="@{/record}" >
+	<fieldset>
+        <legend>輸入工作項目與時間</legend>
+        <p id="username" ><label th:text="welcome+' '+ ${username}"></label></p>
+        <p align='center' valign="middle">日期： <input type="date" name="date"/></p>
+<!--        <security:authorize access="hasRole('MEMBER')">-->
+<!--            &lt;!&ndash; MEMBER角色就會顯示 security:authorize標籤里的內容&ndash;&gt;-->
+<!--            <p>你是MEMBER</p>-->
+<!--        </security:authorize>-->
+<!--        <security:authorize access="hasRole('LEADER')">-->
+<!--            <p>你是LEADER</p>-->
+<!--        </security:authorize>-->
+        <p align='center' valign="middle">開始時間：<input type="time" name="start_time"/></p>
+        <p align='center' valign="middle">結束時間：<input type="time" name="end_time"/></p>
+        <p align='center' valign="middle">工作類別：
+            <select name="platform" onChange="renew(this.selectedIndex);">
+                <option value ="">請選擇工作項目
+                <option value="T&D">T&D
+                <option value="C2MA">C2MA
+                <option value="I&I">I&I
+                <option value="Other">Other
+                <option value="FR">FR
+                <option value="DBTW">DBTW
+                <option value="Card+">Card+
+                <option value="iReward">iReward
+                <option value="CFTW">CFTW
+                <option value="Fulfill">Fulfill
+            </select>
+            <select name="detail">
+                <option value="">工作細節:
+            </select>
+        </p>
+	    <input type="submit" value="上傳"/>
+	</fieldset>
+   </form>
+  </div>
+
+  <!--footer image -->
+　<div id="footer"></div>
+  </div>
+</body>
+</html>

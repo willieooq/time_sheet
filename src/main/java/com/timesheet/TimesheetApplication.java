@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@MapperScan(basePackages = "com.timesheet.mapper")
 public class TimesheetApplication {
 
     public static void main(String[] args) {
