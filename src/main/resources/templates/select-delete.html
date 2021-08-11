@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 
 <head>
-  <title>Login page</title>
+  <title>Log book</title>
   <!-- css -->
   <link th:href="@{/css/main_style.css}" type="text/css" href="../static/css/main_style.css" rel="stylesheet" />
   <!-- js -->
@@ -38,7 +39,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="worktime:${worktimes}">
+        <!--    這邊其實是對的，但IJ會報錯我也不知道為什麼    -->
+        <tr th:each="worktime:${pageInfo.list}">
           <td><input type="checkbox" name="remember-me" th:value="${worktime.id}"></td>
           <td th:text="${worktime.getUserId}"></td>
           <td th:text="${worktime.date}"></td>
@@ -51,13 +53,14 @@
       </table>
       <br>
       <div>
-        <a href="?pageNum=1">[首 頁]</a>
-        <a href="?start=${page.pageNum-1}">[上一頁]</a>
-        <a href="?start=${page.pageNum+1}">[下一頁]</a>
-        <a href="?start=${page.pages}">[末 頁]</a>
+        <a th:href="'?pageNum=1'">[首 頁]</a>
+        <a th:href="'?pageNum='+${(pageInfo.pageNum)-1}">[上一頁]</a>
+        <a th:href="'?pageNum='+${(pageInfo.pageNum)+1}">[下一頁]</a>
+        <a th:href="'?pageNum='+${pageInfo.pageNum}">[末 頁]</a>
       </div>
       <div>
-        當前第 [[${pageInfo.pageNum}]]頁，共 [[${pageInfo.pages}]] 頁， 共 [[${pageInfo.total}]] 條記錄
+        <p th:value="當前第 [[${pageInfo.pageNum}]]頁，共 [[${pageInfo.pages}]] 頁， 共 [[${pageInfo.total}]] 條記錄"></p>
+
       </div>
 
     </div>

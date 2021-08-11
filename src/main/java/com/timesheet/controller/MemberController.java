@@ -85,28 +85,10 @@ public class MemberController{
         return "redirect:/record_working";
     }
     @RequestMapping("/select-delete")
-    private String Select(WorkTime w,Model m)throws Exception{
+    private String Select(Model m,
+                          @RequestParam(required = false,defaultValue="1",value="pageNum")Integer pageNum,
+                          @RequestParam(defaultValue="5",value="pageSize")Integer pageSize )throws Exception{
         m.addAttribute("worktimes", userService.listByAll());
-        return "select-delete";
-    }
-    //返回翻頁數據
-    @ResponseBody
-    @RequestMapping("getListPage")
-    public String listCategory(Model m,@RequestParam(value = "start", defaultValue = "0") int start,@RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        m.addAttribute("worktimes", userService.listByAll());
-        PageHelper.startPage(start,size,"id desc");
-        List<WorkTime> cs=userService.listByAll();
-        PageInfo<WorkTime> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
-        return "listCategory";
-    }
-    @ResponseBody
-    @RequestMapping(value = "/getGoodsTypeList")
-    public List<WorkTime> getGoodsTypeList(Model model,
-                                           @RequestParam(required = false,defaultValue="1",value="pageNum")Integer pageNum,
-                                           @RequestParam(defaultValue="5",value="pageSize")Integer pageSize )throws Exception {
-//        Map<String, Object> map = new HashMap<String, Object>();
-        //為了程序的嚴謹性，判斷非空：
         if(pageNum == null){
             pageNum = 1;   //設置默認當前頁
         }
@@ -127,10 +109,51 @@ public class MemberController{
         PageInfo pageInfo = new PageInfo(userService.listByAll(),pageSize);
 
         //4.使用model/map/model and view等帶回前端
-        model.addAttribute("pageInfo",pageInfo);
-        // 呼叫業務邏輯,返回資料
-        return userService.getList(pageNum,pageSize);
+        m.addAttribute("pageInfo",pageInfo);
+        return "select-delete";
     }
+    //返回翻頁數據
+    @ResponseBody
+    @RequestMapping("getListPage")
+    public String listCategory(Model m,@RequestParam(value = "start", defaultValue = "0") int start,@RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        m.addAttribute("worktimes", userService.listByAll());
+        PageHelper.startPage(start,size,"id desc");
+        List<WorkTime> cs=userService.listByAll();
+        PageInfo<WorkTime> page = new PageInfo<>(cs);
+        m.addAttribute("page", page);
+        return "listCategory";
+    }
+//    @ResponseBody
+//    @RequestMapping(value = "/getGoodsTypeList")
+//    public List<WorkTime> getGoodsTypeList(Model model,
+//                                           @RequestParam(required = false,defaultValue="1",value="pageNum")Integer pageNum,
+//                                           @RequestParam(defaultValue="5",value="pageSize")Integer pageSize )throws Exception {
+////        Map<String, Object> map = new HashMap<String, Object>();
+//        //為了程序的嚴謹性，判斷非空：
+//        if(pageNum == null){
+//            pageNum = 1;   //設置默認當前頁
+//        }
+//        if(pageNum <= 0){
+//            pageNum = 1;
+//        }
+//        if(pageSize == null){
+//            pageSize = 5;    //設置默認每頁顯示的數據數
+//        }
+//
+//        //1.引入分頁插件,pageNum是第幾頁，pageSize是每頁顯示多少條,默認查詢總數count
+//        PageHelper.startPage(pageNum,pageSize);
+//
+//        //2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次調用PageHelper.startPage
+////        List<Map<String,Object>> leaveMessageList = leaveMessageService.list(map);
+//
+//        //3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list類型是Page<E>
+//        PageInfo pageInfo = new PageInfo(userService.listByAll(),pageSize);
+//
+//        //4.使用model/map/model and view等帶回前端
+//        model.addAttribute("pageInfo",pageInfo);
+//        // 呼叫業務邏輯,返回資料
+//        return userService.getList(pageNum,pageSize);
+//    }
     @RequestMapping("/deleteRecord")
     private String deleteRecord(){
         return "redirect:/select-delete";

@@ -20,9 +20,9 @@ public interface WorkTimeMapper{
     //根據實體類不為null的欄位進行查詢,條件全部使用=號and條件
     List<WorkTime> select(WorkTime record);
     //全選
-    @Select("select * from worktime")
+    @Select("select * from work_time")
     List<WorkTime> selectAll();
-    @Select("select * from worktime order by USER_ID desc")
+    @Select("select * from work_time order by UserId desc")
     List<WorkTime> listPages();
     //根據實體類不為null的欄位查詢總數,條件全部使用=號and條件
     int selectCount(WorkTime record);
