@@ -2,40 +2,53 @@
 github連結 : [https://github.com/willieooq/time_sheet](https://github.com/willieooq/time_sheet)
 # TABLE
 ## member account:
-![](https://i.imgur.com/FQgvnw4.png)
+![](https://i.imgur.com/lMOoF3s.png)
 ```
-create table `memberaccount`(
-    `ID` int auto_increment not null ,
-   `NAME` varchar(40) unique not null ,
-   `PASSWORD` varchar(45) not null ,
-   `LAST_LOGIN` date  ,
+create table `member_account`(
+    `Id` int auto_increment not null ,
+   `Name` varchar(40) unique not null ,
+   `Password` varchar(45) not null ,
+   `LastLogin` date  ,
    primary key (ID,NAME),
-    `ROLE` enum('MEMBER','ADMIN') not null default 'MEMBER')
+    `Role` enum('MEMBER','ADMIN') not null default 'MEMBER')
 ```
-## worktime:
-![](https://i.imgur.com/DEXJ9tc.png)
-USER_ID reference memberaccount NAME  
-PLATFORM DETAIL reference work(PLATFORM DETAIL)
+## work_time:
+![](https://i.imgur.com/xLjfW82.png)
+
 ```
-create table `worktime`(
-    `ID` int auto_increment not null primary key ,
-   `USER_ID` varchar(60) not null ,
-   `DATE` date not null ,
-   `START_TIME` time not null  ,
-   `END_TIME` time not null ,
-   `PLATFORM` varchar(30) not null ,
-   `DETAIL` varchar(30) not null ,
-   constraint  MEMBER_NAME foreign key (USER_ID) references memberaccount(NAME),
-   constraint C_D foreign key (PLATFORM,DETAIL) references work(PLATFORM,DETAIL));
+create table `work_time`(
+    `Id` int auto_increment not null primary key ,
+   `UserId` varchar(40) not null ,
+   `Date` date not null ,
+   `StartTime` time not null  ,
+   `EndTime` time not null ,
+   `Platform` varchar(30) not null ,
+   `Detail` varchar(30) not null ,
+   constraint fk_UserId_Name foreign key (UserId) references memberaccount(Name),
+   constraint fk_P_D foreign key (Platform,Detail) references work(Platform,Detail));
 ```
 ## work
-![](https://i.imgur.com/49U31cc.png)
+![](https://i.imgur.com/a21hwsR.png)
+
 ```
 create table `work`(
-   `PLATFORM` varchar(40) not null ,
-   `DETAIL` varchar(40) not null ,
-   `OP_CODE` varchar(4) not null  unique ,
-   `DESCRIPTION` varchar(40) );
+   `Platform` varchar(40) not null ,
+   `Detail` varchar(40) not null ,
+   `PcCode` varchar(4) not null  unique ,
+   `Description` varchar(40) ,
+   `CreatedBy` varchar(40) not null,
+   `CreationDate` date not null,
+   `ModifiedBy` varchar(40),
+   `ModificationDate` date);
+```
+```
+CreatedBy --- reference MemberAccount.ID
+	
+CreationDate --- GateDate(), Date Format: yyyy/MM/dd
+	
+ModifiedBy --- reference MemberAccount.ID
+	
+ModificationDate --- GateDate(), Date Format: yyyy/MM/dd
 ```
 ## 欲增加的Data:
 薪資計算趴數(income_percentage) for HR 圓餅圖
