@@ -2,6 +2,7 @@ package com.timesheet.mapper;
 
 import com.timesheet.pojo.WorkTime;
 import com.timesheet.utils.MyMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,14 +15,19 @@ import java.util.List;
 public interface WorkTimeMapper{
 
     //create member data
-    @Insert("insert into work_time (UserId,Date,StartTime,EndTime,Platform,Detail) " +
-            "values (#{userId},#{date},#{startTime},#{endTime},#{platform},#{detail})")
+    @Insert("insert into work_time (UserId,Date,Time,Platform,Detail) " +
+            "values (#{userId},#{date},#{Time},#{platform},#{detail})")
     void create(WorkTime record);
     //根據實體類不為null的欄位進行查詢,條件全部使用=號and條件
     List<WorkTime> select(WorkTime record);
     //全選
     @Select("select * from work_time")
     List<WorkTime> selectAll();
+    //通過主鍵進行刪除,這裡最多隻會刪除一條資料
+    //單個欄位做主鍵時,可以直接寫主鍵的值
+    //聯合主鍵時,key可以是實體類,也可以是Map
+    @Delete("delete from work_time where Id = #{id}")
+    int deleteById(int id);
     @Select("select * from work_time order by UserId desc")
     List<WorkTime> listPages();
     //根據實體類不為null的欄位查詢總數,條件全部使用=號and條件
@@ -40,10 +46,6 @@ public interface WorkTimeMapper{
     int insertSelective(WorkTime record);
     //根據實體類中欄位不為null的條件進行刪除,條件全部使用=號and條件
     int delete(WorkTime key);
-    //通過主鍵進行刪除,這裡最多隻會刪除一條資料
-    //單個欄位做主鍵時,可以直接寫主鍵的值
-    //聯合主鍵時,key可以是實體類,也可以是Map
-    int deleteByPrimaryKey(Object key);
     //根據主鍵進行更新,這裡最多隻會更新一條資料
     //引數為實體類
     int updateByPrimaryKey(WorkTime record);

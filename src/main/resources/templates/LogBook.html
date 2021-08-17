@@ -8,8 +8,10 @@
   <!-- css -->
   <link th:href="@{/css/main_style.css}" type="text/css" href="../static/css/main_style.css" rel="stylesheet" />
   <!-- js -->
-  <script type="text/javascript" src="../static/js/login_page.js" th:src="@{/js/login_page.js}"></script>
-  <script type="text/javascript" src="../static/js/page.js" th:src="@{/js/page.js}"></script>
+  <script type="text/javascript" src="../static/js/alert.js" th:src="@{/js/alert.js}"></script>
+<!--  <script th:inline="javascript">-->
+<!--    -->
+<!--  </script>-->
   <!--  <script>testFunction();</script>-->
 
   <div id="header" >
@@ -19,7 +21,9 @@
   <div id="nav"></div>
 </head>
 
-<body>　
+<body>
+<div class="alert alert-primary" role="alert" th:if="${success}"><script>deleteSuccess()</script></div>
+<div class="alert alert-danger" role="alert" th:if="${error}"><script>deleteFailed()</script></div>　
 
 <div id="sitebody" align="center"> 　
   <!-- form -->
@@ -29,7 +33,7 @@
       <table align='center' border='1' cellspacing='0' width=100%>
         <thead>
         <tr>
-          <th>勾選</th>
+          <th>選取</th>
           <th>名稱</th>
           <th>日期</th>
           <th>開始時間</th>
@@ -41,7 +45,7 @@
         <tbody>
         <!--    這邊其實是對的，但IJ會報錯我也不知道為什麼    -->
         <tr th:each="worktime:${pageInfo.list}">
-          <td><input type="checkbox" name="remember-me" th:value="${worktime.id}"></td>
+          <td><input type="checkbox" name="Ids" th:value="${worktime.id}"></td>
           <td th:text="${worktime.getUserId}"></td>
           <td th:text="${worktime.date}"></td>
           <td th:text="${#strings.substring(worktime.getStartTime,0,5)}"></td>
@@ -59,8 +63,7 @@
         <a th:href="'?pageNum='+${pageInfo.pageNum}">[末 頁]</a>
       </div>
       <div>
-        <p th:value="當前第 [[${pageInfo.pageNum}]]頁，共 [[${pageInfo.pages}]] 頁， 共 [[${pageInfo.total}]] 條記錄"></p>
-
+<!--        <p th:text="'當前第 [ '+${pageInfo.pageNum}+' ]頁，共 [ '+${pageInfo.pages}+' ] 頁， 共 [ '+${pageInfo.total}+' ] 條記錄'"></p>-->
       </div>
 
     </div>

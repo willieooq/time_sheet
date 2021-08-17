@@ -3,6 +3,7 @@ package com.timesheet.service;
 import com.timesheet.mapper.MemberMapper;
 import com.timesheet.pojo.Member;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +16,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+
 @Service
 public class LoginService implements UserDetailsService {
 
     private MemberMapper memberMapper;
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
     public void setMemberMapper(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
     }
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {this.passwordEncoder = passwordEncoder;}
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

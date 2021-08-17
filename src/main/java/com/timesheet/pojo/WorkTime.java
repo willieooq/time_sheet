@@ -25,12 +25,9 @@ public class WorkTime {
     //Date YYYY/MM/DD
     @Column(name = "Date")
     private Date date;
-    //Start time hh/mm
-    @Column(name = "StartTime")
-    private Time startTime;
-    //End time hh/mm
-    @Column(name = "EndTime")
-    private Time endTime;
+    //Time hh/mm
+    @Column(name = "Time")
+    private Time Time;
     //Platform
     @Column(name = "Platform")
     private String platform;
