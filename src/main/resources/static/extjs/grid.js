@@ -1,92 +1,98 @@
-Ext.require([
-    'Ext.grid.*',
-    'Ext.data.*',
-    'Ext.panel.*',
-    'Ext.layout.container.Border',
-]);
 
-Ext.onReady(function(){
-    Ext.define('WorkTime',{
+Ext.onReady(function () {
+
+    var selection = [];
+
+    var WorkTimeModel = Ext.define('WorkTimeModel', {
         extend: 'Ext.data.Model',
-        proxy: {
-            type: 'ajax',
-            reader: 'xml'
-        },
         fields: [
-            // set up the fields mapping into the xml doc
-            // The first needs mapping, the others are very basic
-            {name: 'Author', mapping: '@author.name'},
-            'Title',
-            'Manufacturer',
-            'ProductGroup',
-            'DetailPageURL'
+            { name: "'id", mapping: 'id', type: 'string' },
+            { name: 'userId', type: 'string' },
+            { name: 'date', type: 'date' },
+            { name: 'time', type: 'string' },
+            { name: 'platform', type: 'string' },
+            { name: 'detail', type: 'string' }
         ]
     });
-
-    // create the Data Store
-    var store = Ext.create('Ext.data.Store', {
-        model: 'Book',
+    var workTimes = Ext.create('Ext.data.Store', {
+        model: WorkTimeModel,
+        autoLoad: true,
         proxy: {
-            // load using HTTP
             type: 'ajax',
-            url: 'sheldon.xml',
-            // the return will be XML, so lets set up a reader
+            actionMethods: { read: 'POST' }, //reference to Restful api
+            url: 'callRecord', //後端route
             reader: {
-                type: 'xml',
-                record: 'Item',
-                totalProperty  : 'total'
+                type: 'json',
+                root: 'workTimes',
+                successProperty: 'success'
+                // totalProperty: 'total'
             }
-        }
+        },
     });
 
-    // create the grid
+    //建立Grid
     var grid = Ext.create('Ext.grid.Panel', {
-        store: store,
-        columns: [
-            {text: "Author", width: 120, dataIndex: 'Author', sortable: true},
-            {text: "Title", flex: 1, dataIndex: 'Title', sortable: true},
-            {text: "Manufacturer", width: 125, dataIndex: 'Manufacturer', sortable: true},
-            {text: "Product Group", width: 125, dataIndex: 'ProductGroup', sortable: true}
-        ],
-        forceFit: true,
-        height:210,
-        split: true,
-        region: 'north'
-    });
-
-    // define a template to use for the detail view
-    var bookTplMarkup = [
-        'Title: <a href="{DetailPageURL}" target="_blank">{Title}</a><br/>',
-        'Author: {Author}<br/>',
-        'Manufacturer: {Manufacturer}<br/>',
-        'Product Group: {ProductGroup}<br/>'
-    ];
-    var bookTpl = Ext.create('Ext.Template', bookTplMarkup);
-
-    Ext.create('Ext.Panel', {
-        renderTo: Ext.getBody,
-        frame: true,
-        title: 'Book List',
-        width: 580,
-        height: 400,
-        layout: 'border',
-        items: [
-            grid, {
-                id: 'detailPanel',
-                region: 'center',
-                bodyPadding: 7,
-                bodyStyle: "background: #ffffff;",
-                html: 'Please select a book to see additional details.'
+        renderTo: 'grid',
+        store: workTimes,
+        title: 'Log book',
+        iconCls: 'icon-grid',
+        width: 600,
+        bbar: {
+            xtype: 'pagingtoolbar',//底部工具列是分頁工具列
+            store: workTimes,//按照userStore的資料進行分頁
+            displayInfo: false,//顯示共XX頁，每頁顯示XX條的資訊
+            items:[{
+                xtype:'button',
+                text:'del',
+                handler:function(){
+                    Ext.Array.forEach(selection,function(item,idx){
+                        console.log(item.data);
+                    });
+                }
             }]
+        },
+    selModel : {
+       selType : 'checkboxmodel', // rowmodel is the default selection model
+       mode    : 'MULTI',     // Allows selection of multiple rows
+       listeners:{
+           selectionchange:function( thisObj, selected, eOpts ){
+               selection=selected;
+           }
+       }
+    }, 
+        columns: [
+            {
+                header: 'User ID',
+                dataIndex: 'userId',
+                flex: 3,
+                sortable: true,
+            },
+            {
+                header: 'Date',
+                dataIndex: 'date',
+                xtype: 'datecolumn',
+                format: 'Y-m-d',
+                sortable: true,
+                flex: 4
+            },
+            {
+                header: 'Time',
+                dataIndex: 'time',
+                flex: 4,
+                sortable: true
+            },
+            {
+                header: 'Platform',
+                dataIndex: 'platform',
+                sortable: true,
+                flex: 4
+            },
+            {
+                header: 'Detail',
+                dataIndex: 'detail',
+                sortable: true,
+                flex: 6
+            }
+        ]
     });
-
-    // update panel body on selection change
-    grid.getSelectionModel().on('selectionchange', function(sm, selectedRecord) {
-        if (selectedRecord.length) {
-            var detailPanel = Ext.getCmp('detailPanel');
-            detailPanel.update(bookTpl.apply(selectedRecord[0].data));
-        }
-    });
-
-    store.load();
 });

@@ -1,15 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-neptune/resources/theme-neptune-all.css" rel="stylesheet">
 <!--    <script src="https://cdn.bootcss.com/extjs/6.0.0/ext-all.js" rel="external nofollow" ></script>-->
-    <script src="../static/extjs/ext-all.js" rel="external nofollow" ></script>
-<!--    <script src="../static/extjs/grid.js"></script>-->
-    <!-- <script src="../static/extjs/grid.js"></script> -->
-    <script src="../static/extjs/test.js"></script>
+<!--    <script src="../static/extjs/ext-all.js" rel="external nofollow" th:src="@{/extjs/ext-all.js}" ></script>-->
+    <script src="../static/extjs/ext-all-debug.js" rel="external nofollow" th:src="@{/extjs/ext-all-debug.js}" ></script>
+    <script src="../static/extjs/test.js" th:src="@{/extjs/test.js}"></script>
+<!--    <div id="sitebody" align="center"> 　-->
+<!--        &lt;!&ndash; form &ndash;&gt;-->
+<!--        <form th:action="@{/deleteRecord}" method="post">　-->
+<!--            <div align="center" id = "content">-->
+<!--                <p align="left"><button type="submit">刪除</button>-->
+<!--                <table align='center' border='1' cellspacing='0' width=100%>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>選取</th>-->
+<!--                        <th>名稱</th>-->
+<!--                        <th>日期</th>-->
+<!--                        <th>開始時間</th>-->
+<!--                        <th>結束時間</th>-->
+<!--                        <th>Platform</th>-->
+<!--                        <th>Detail</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    &lt;!&ndash;    這邊其實是對的，但IJ會報錯我也不知道為什麼    &ndash;&gt;-->
+<!--                    <tr th:each="worktime:${pageInfo.list}">-->
+<!--                        <td><input type="checkbox" name="Ids" th:value="${worktime.id}"></td>-->
+<!--                        <td th:text="${worktime.getUserId}"></td>-->
+<!--                        <td th:text="${worktime.date}"></td>-->
+<!--                        <td th:text="${#strings.substring(worktime.getTime,0,5)}"></td>-->
+<!--                        <td th:text="${worktime.platform}"></td>-->
+<!--                        <td th:text="${worktime.detail}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                <br>-->
+<!--                <div>-->
+<!--                    <a th:href="'?pageNum=1'">[首 頁]</a>-->
+<!--                    <a th:href="'?pageNum='+${(pageInfo.pageNum)-1}">[上一頁]</a>-->
+<!--                    <a th:href="'?pageNum='+${(pageInfo.pageNum)+1}">[下一頁]</a>-->
+<!--                    <a th:href="'?pageNum='+${pageInfo.pageNum}">[末 頁]</a>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    &lt;!&ndash;        <p th:text="'當前第 [ '+${pageInfo.pageNum}+' ]頁，共 [ '+${pageInfo.pages}+' ] 頁， 共 [ '+${pageInfo.total}+' ] 條記錄'"></p>&ndash;&gt;-->
+<!--                </div>-->
 
+<!--            </div>-->
+<!--        </form>-->
+<!--        &lt;!&ndash; footer image &ndash;&gt;-->
+<!--        <div id="footer"></div>-->
+<!--    </div>-->
 </head>
 <body>
-<div id="example"></div>
+<div id="grid"></div>
 </body>
 </html>
