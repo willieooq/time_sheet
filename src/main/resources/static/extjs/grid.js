@@ -16,7 +16,8 @@ Ext.onReady(function () {
     });
     var workTimes = Ext.create('Ext.data.Store', {
         model: WorkTimeModel,
-        autoLoad: true,
+        autoLoad: {start:1,limit:3},
+        pageSize:5,
         proxy: {
             type: 'ajax',
             actionMethods: { read: 'POST' }, //reference to Restful api
@@ -29,7 +30,6 @@ Ext.onReady(function () {
             }
         },
     });
-
     //建立Grid
     var grid = Ext.create('Ext.grid.Panel', {
         renderTo: 'grid',
@@ -40,7 +40,7 @@ Ext.onReady(function () {
         bbar: {
             xtype: 'pagingtoolbar',//底部工具列是分頁工具列
             store: workTimes,//按照userStore的資料進行分頁
-            displayInfo: false,//顯示共XX頁，每頁顯示XX條的資訊
+            displayInfo: true,//顯示共XX頁，每頁顯示XX條的資訊
             items:[{
                 xtype:'button',
                 text:'del',
@@ -51,15 +51,15 @@ Ext.onReady(function () {
                 }
             }]
         },
-    selModel : {
-       selType : 'checkboxmodel', // rowmodel is the default selection model
-       mode    : 'MULTI',     // Allows selection of multiple rows
-       listeners:{
-           selectionchange:function( thisObj, selected, eOpts ){
-               selection=selected;
+        selModel : {
+           selType : 'checkboxmodel', // rowmodel is the default selection model
+           mode    : 'MULTI',     // Allows selection of multiple rows
+           listeners:{
+               selectionchange:function( thisObj, selected, eOpts ){
+                   selection=selected;
+               }
            }
-       }
-    }, 
+        },
         columns: [
             {
                 header: 'User ID',
@@ -95,4 +95,5 @@ Ext.onReady(function () {
             }
         ]
     });
+
 });

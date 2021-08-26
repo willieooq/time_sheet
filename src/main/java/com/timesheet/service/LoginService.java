@@ -31,19 +31,12 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+// 封裝成 Spring security 定義的 User 對象
         return getByUsername(username)
                 .map(e -> User.withUsername(e.getName())
                         .passwordEncoder(s -> passwordEncoder.encode(e.getPassword()))
-//                        .password("{noop}" + e.getPassword())
                         .roles(e.getRole())
                         .build()).orElse(null);
-
-        // 封裝成 Spring security 定義的 User 對象
-//        return User.builder()
-//                .username(username)
-//                .passwordEncoder(s -> passwordEncoder.encode(passwd))
-//                .authorities(new SimpleGrantedAuthority("admin"))
-//                .build();
     }
     public List<String> getAllUserNames() {
         return memberMapper.selectAll().stream()
@@ -58,3 +51,9 @@ public class LoginService implements UserDetailsService {
         memberMapper.set_login_date(username);
     }
 }
+
+//        return User.builder()
+//                .username(username)
+//                .passwordEncoder(s -> passwordEncoder.encode(passwd))
+//                .authorities(new SimpleGrantedAuthority("admin"))
+//                .build();
